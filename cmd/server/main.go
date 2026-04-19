@@ -19,6 +19,8 @@ import (
 	"go.uber.org/fx"
 )
 
+// --- Modules ---
+
 var moduleInfra = fx.Module("infra",
 	fx.Provide(
 		config.Load,
@@ -28,6 +30,7 @@ var moduleInfra = fx.Module("infra",
 
 var moduleOrder = fx.Module("order",
 	fx.Provide(
+		// Repositories
 		fx.Annotate(
 			httpclient.NewUserRepo,
 			fx.As(new(repository.UserRepository)),
@@ -36,8 +39,11 @@ var moduleOrder = fx.Module("order",
 			httpclient.NewOrderRepo,
 			fx.As(new(repository.OrderRepository)),
 		),
+		// Validator
 		validate.New,
+		// Use cases
 		usecase.NewProcessOrder,
+		// Handlers
 		handler.NewProcessOrderHandler,
 	),
 )
@@ -47,6 +53,7 @@ var moduleMCP = fx.Module("mcp",
 )
 
 // --- Run server lifecycle ---
+
 func runServer(lc fx.Lifecycle, cfg config.Config, server *mcp.Server) {
 	srv := &http.Server{
 		Addr: cfg.Port,

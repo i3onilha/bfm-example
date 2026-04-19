@@ -28,13 +28,13 @@ func NewOrderRepo(client *http.Client, cfg config.Config) *OrderRepo {
 	}
 }
 
-type processOrderRequest struct {
+type request struct {
 	OrderID  string `json:"orderId"`
 	UserID   string `json:"userId"`
 	Priority string `json:"priority"`
 }
 
-type processOrderResponse struct {
+type response struct {
 	OrderID     string `json:"orderId"`
 	Status      string `json:"status"`
 	EstimatedAt string `json:"estimatedAt"`
@@ -42,7 +42,7 @@ type processOrderResponse struct {
 
 // ProcessOrder POSTs to the backend process_order endpoint.
 func (r *OrderRepo) ProcessOrder(ctx context.Context, order *entity.Order) (*entity.Order, error) {
-	body, err := json.Marshal(processOrderRequest{
+	body, err := json.Marshal(request{
 		OrderID:  order.OrderID,
 		UserID:   order.UserID,
 		Priority: order.Priority,
@@ -66,9 +66,9 @@ func (r *OrderRepo) ProcessOrder(ctx context.Context, order *entity.Order) (*ent
 		return nil, fmt.Errorf("backend returned %s for order %s", resp.Status, order.OrderID)
 	}
 
-	var out processOrderResponse
+	var out response
 	if err := httpjson.DecodeJSON(resp, &out); err != nil {
-		return nil, fmt.Errorf("decode order response: %w", err)
+		return nil, fmt.Errorf("decode order response failed: %w", err)
 	}
 
 	return &entity.Order{
