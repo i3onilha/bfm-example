@@ -2,7 +2,7 @@
 
 Go module **`bfm-example`** (see [`go.mod`](go.mod)).
 
-**bfmcp** means **Backend for Model Context Protocol**. This repo is a small **Backend-for-Frontend (BFF)** proof of concept in Go: the BFF exposes a single workflow—**process order**—as a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) tool over HTTP. It validates input, checks that the user exists via the backend, forwards the order to the backend, then enriches the result (user details and BFF metadata).
+**BFM** means **Backend for Models**. This repo is a small **Backend-for-Frontend (BFF)** proof of concept in Go: the BFF exposes a single workflow—**process order**—as a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) tool over HTTP. It validates input, checks that the user exists via the backend, forwards the order to the backend, then enriches the result (user details and BFF metadata).
 
 The codebase follows a layered layout: domain (entities, repositories, use cases), infrastructure (HTTP clients with header forwarding), and adapters (MCP handlers, middleware, transport). Wiring uses [Uber Fx](https://uber-go.github.io/fx/).
 
