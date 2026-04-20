@@ -55,6 +55,28 @@ The repository root `main.go` is a **demo client**: it starts a **mock REST API*
 
 You should see JSON printed for the structured tool result.
 
+## Run the demo with Python
+
+`main.py` is a Python rewrite of the Go demo client. It starts the same mock backend (`:8082`) and calls the BFF MCP tool.
+
+1. **Terminal 1** - start the BFF server:
+
+   ```bash
+   go run ./cmd/server
+   ```
+
+2. **Terminal 2** - create a virtual environment, install dependency, and run the Python demo:
+
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   python -m pip install --upgrade pip
+   python -m pip install mcp
+   python main.py
+   ```
+
+By default, the Python demo connects to `http://localhost:8081/mcp`.
+
 ## Tests
 
 ```bash
